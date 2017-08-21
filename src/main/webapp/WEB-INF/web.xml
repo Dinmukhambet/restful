@@ -1,0 +1,36 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <servlet>
+    <servlet-name>jersey-server</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+
+      <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>devyellow.message</param-value>
+    </init-param>
+      <init-param>
+          <param-name>jersey.api.json.POJOMappingFeature</param-name>
+          <param-value>true</param-value>
+      </init-param>
+<!--
+      <init-param>
+          <param-name>jersey.config.servlet.filter.staticContentRegex</param-name>
+          <param-value>views/.*html</param-value>
+      </init-param>
+      <init-param>
+          <param-name>jersey.config.property.JSPTemplatesBasePath</param-name>
+          <param-value>/WEB-INF/jsp</param-value>
+      </init-param>-->
+  </servlet>
+    <servlet-mapping>
+        <servlet-name>jersey-server</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>

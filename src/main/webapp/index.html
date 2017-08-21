@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript">
+        var app=angular.module('MessageManagement',[]);
+        app.controller('MessageController',function ($scope,$http) {
+            $scope.messages =[];
+            $scope.messageForm ={
+                id: -1,
+                msgRu:'',
+                msgKz:'',
+                msgEN:''
+            };
+
+            $scope.submitMessage =function(){
+                var method='';
+                var url='';
+                if($scope.messageForm.id==-1){
+                    method='POST';
+                    url='rest/messages';
+                }
+                else {
+                    method='PUT';
+                    url='rest/messages';
+                }
+
+
+            }
+
+        })
+
+    </script>
+</head>
+<body>
+<h2>SDFGHJKLJH</h2>
+</body>
+</html>
