@@ -42,15 +42,17 @@ public class MessageController {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteMsg(@PathParam("id")Integer id) throws IOException {
-        service.deleteMsg(id);
+    public Message deleteMsg(@PathParam("id")int id) throws IOException {
+      Message msg=  service.deleteMsg(id);
+      return msg;
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void getMsgById(@PathParam("id") Integer id) {
-        service.getMessageById(id);
+    public Message getMsgById(@PathParam("id") int id) {
+       Message msg= service.getMessageById(id);
+       return msg;
     }
 
 }

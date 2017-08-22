@@ -3,38 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="bower_components/angular/angular.js"></script>
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" >
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script type="text/javascript">
         var app=angular.module('MessageManagement',[]);
         app.controller('MessageController',function ($scope,$http) {
-            $scope.messages =[];
+            $scope.msgs =[];
+
             $scope.messageForm ={
                 id: -1,
-                msgRu:'',
-                msgKz:'',
-                msgEN:''
+                msgRu:"",
+                msgKz:"",
+                msgEn:""
             };
+
+            _refreshMessageData();
 
             $scope.submitMessage =function(){
                 var method='';
                 var url='';
                 if($scope.messageForm.id==-1){
-                    method='POST';
+                    method="POST";
                     url='rest/messages';
                 }
                 else {
-                    method='PUT';
+                    method="PUT";
                     url='rest/messages';
                 }
 
+                $http({method : method,
+                url : url,
+                data:angular.toJson($scope.messageForm),
+                headers:{
+                    'Content-Type' : 'application/json'
+                }
+                }).then(_success,_error);
+            };
 
+            $scope.deleteMessage=function(message) {
+                $http({
+                    method:'DELETE',
+                    url:'rest/messages/'+message.id
+                }).then(_success,_error);
+            };
+
+            $scope.editMessage = function (message) {
+                $scope.messageForm.id=message.id;
+                $scope.messageForm.msgRu=message.msgRu;
+                $scope.messageForm.msgKz=message.msgKz;
+                $scope.messageForm.msgEn=message.msgEn;
+            };
+
+            function _refreshMessageData() {
+                $http({
+                    method:'GET',
+                    url:'http://localhost:8080/rest/messages/'
+                }).then(function successCallback(response){
+                    $scope.msgs = response.data;
+                },function errorCallback(response){
+                    console.log(response.statusText);
+                });
             }
 
-        })
+            function _success(response) {
+                _refreshMessageData();
+                _clearFormData()
+            }
+
+            function _error(response) {
+                console.log(response.statusText);
+            }
+
+            function _clearFormData() {
+                $scope.messageForm.id=-1;
+                $scope.messageForm.msgRu='';
+                $scope.messageForm.msgKz='';
+                $scope.messageForm.msgEn='';
+            }
+
+        });
 
     </script>
 </head>
-<body>
-<h2>SDFGHJKLJH</h2>
+<body ng-app="MessageManagement" ng-controller="MessageController">
+<h2>Messages</h2>
+<form ng-submit="submitMessage()">
+    <table>
+        <tr><th colspan="2">add/edit</th></tr>
+     <!--  <tr>
+            <td>ID</td>
+            <td><input type="text" ng-model="messageForm.id"></td>
+        </tr>-->
+        <tr>
+            <td>Ru message</td>
+            <td><input type="text" ng-model="messageForm.msgRu"></td>
+        </tr>
+        <tr>
+            <td>Kz message</td>
+            <td><input type="text" ng-model="messageForm.msgKz"></td>
+        </tr>
+        <tr>
+            <td>En message</td>
+            <td><input type="text" ng-model="messageForm.msgEn"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="submit"></td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+
+            <th>ENG</th>
+            <th>KAZ</th>
+            <th>RUS</th>
+        </tr>
+        <tr ng-repeat="msg in msgs">
+            <td>{{msg.msgRu}}</td>
+            <td>{{msg.msgKz}}</td>
+            <td>{{msg.msgEn}}</td>
+            <td><a ng-click="editMessage(msg)">Edit</a> | <a ng-click="deleteMessage(msg)">Delete</a></td>
+        </tr>
+
+    </table>
+</form>
 </body>
 </html>
