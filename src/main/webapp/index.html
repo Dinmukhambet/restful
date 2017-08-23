@@ -10,10 +10,11 @@
     <script type="text/javascript">
         var app=angular.module('MessageManagement',[]);
         app.controller('MessageController',function ($scope,$http) {
-            $http.get('http://localhost:8080/rest/messages/').then(function (response) {
+          /*  $http.get('http://localhost:8080/rest/messages/').then(function (response) {
                 $scope.msgs =response.data;
-            });
+            });*/
 
+            $scope.msgs=[];
            $scope.messageForm ={
                 msgID: "",
                 msgRu:"",
@@ -84,8 +85,24 @@
                 $scope.messageForm.msgKz='';
                 $scope.messageForm.msgEn='';
             }
+            $scope.currentPage =0;
+            $scope.pageSize = 30;
+            $scope.q = '';
+
+            $scope.numberOfPages = function(){
+                return Math.ceil($scope.msgs.length/$scope.pageSize);
+            }
+
 
         });
+        app.filter('startFrom',function () {
+            return function(input,start){
+                if (!input || !input.length) { return; }
+                start = +start;
+                return input.slice(start);
+            }});
+
+
 
     </script>
 </head>
@@ -116,18 +133,23 @@
     </table>
  </form>
     <table>
+        <tr><input ng-model="q" ></tr>
         <tr>
             <th>ID</th>
             <th>ENG</th>
             <th>KAZ</th>
             <th>RUS</th>
         </tr>
-        <tr ng-repeat="msg in msgs">
+        <tr ng-repeat="msg in msgs | filter: q| startFrom:currentPage*pageSize|limitTo:pageSize">
             <td>{{msg.msgID}}</td>
             <td>{{msg.msgRu}}</td>
             <td>{{msg.msgKz}}</td>
             <td>{{msg.msgEn}}</td>
             <td><a ng-click="editMessage(msg)">Edit</a> | <a ng-click="deleteMessage(msg)">Delete</a></td>
+        </tr>
+        <tr><button ng-disabled="currentPage==0" ng-click="currentPage=currentPage-1">Previous</button>
+        {{currentPage+1}}/{{numberOfPages()}}
+        <button ng-disabled="currentPage >= msgs.length/pageSize - 1" ng-click="currentPage= currentPage+1">Next</button>
         </tr>
     </table>
 </body>
