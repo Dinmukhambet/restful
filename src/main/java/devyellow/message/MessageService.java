@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class MessageService {
 
-    static HashMap<Integer,Message> msgMap = new HashMap<Integer,Message>();
+    static HashMap<Integer,Message> msgMap = new HashMap<>();
     static List<String> message = new ArrayList<>();
     static {
           try {
@@ -46,7 +46,6 @@ public class MessageService {
     }
 
     public synchronized Message createMessage(Message msg) throws IOException {
-        Message message= new Message();
           int max=0;
         for (int key:msgMap.keySet()) {
 
@@ -58,7 +57,6 @@ public class MessageService {
             }
                 max=key;
         }
-       // message.setMsgID(msg.getMsgID());
 
 
         return null;

@@ -10,9 +10,6 @@
     <script type="text/javascript">
         var app=angular.module('MessageManagement',[]);
         app.controller('MessageController',function ($scope,$http) {
-          /*  $http.get('http://localhost:8080/rest/messages/').then(function (response) {
-                $scope.msgs =response.data;
-            });*/
 
             $scope.msgs=[];
            $scope.messageForm ={
@@ -111,10 +108,6 @@
  <form ng-submit="submitMessage()">
     <table>
         <tr><th colspan="2">add/edit</th></tr>
-    <!--   <tr>
-            <td>ID</td>
-            <td><input type="text" ng-model="messageForm.msgID"></td>
-        </tr>-->
         <tr>
             <td>Ru message</td>
             <td><input type="text" ng-model="messageForm.msgRu"></td>
