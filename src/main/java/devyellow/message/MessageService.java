@@ -45,7 +45,7 @@ public class MessageService {
         return msgMap.get(id);
     }
 
-    public Message createMessage(Message msg) throws IOException {
+    public synchronized Message createMessage(Message msg) throws IOException {
         Message message= new Message();
           int max=0;
         for (int key:msgMap.keySet()) {
