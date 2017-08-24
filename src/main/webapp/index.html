@@ -10,8 +10,7 @@
     <script type="text/javascript">
         var app=angular.module('MessageManagement',[]);
         app.controller('MessageController',function ($scope,$http) {
-
-            $scope.msgs=[];
+           $scope.msgs=[];
            $scope.messageForm ={
                 msgID: -1,//without ID , ID should be generated in empty row
                 msgRu:"",
@@ -82,6 +81,8 @@
                 $scope.messageForm.msgKz='';
                 $scope.messageForm.msgEn='';
             }
+
+            //pagination variables
             $scope.currentPage =0;
             $scope.pageSize = 30;
             $scope.q = '';
@@ -108,7 +109,7 @@
  <form ng-submit="submitMessage()">
     <table>
         <tr><th colspan="2">add/edit</th></tr>
-        <tr>
+           <tr>
             <td>Ru message</td>
             <td><input type="text" ng-model="messageForm.msgRu"></td>
         </tr>

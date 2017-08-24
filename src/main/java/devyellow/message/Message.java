@@ -20,6 +20,8 @@ public class Message {
         this.msgEn = msgEn;
     }
 
+    public Message() {}
+
     public int getMsgID() {
         return msgID;
     }
