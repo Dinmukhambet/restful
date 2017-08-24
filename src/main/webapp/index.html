@@ -16,7 +16,7 @@
 
             $scope.msgs=[];
            $scope.messageForm ={
-                msgID: "",
+                msgID: -1,//without ID , ID should be generated in empty row
                 msgRu:"",
                 msgKz:"",
                 msgEn:""
@@ -27,7 +27,7 @@
             $scope.submitMessage =function(){
                 var method='';
                 var url='';
-                if($scope.messageForm.msgID===""){
+                if($scope.messageForm.msgID==-1){
                     method="POST";
                     url='rest/messages';
                 }
@@ -38,22 +38,22 @@
 
                 $http({method : method,
                 url : url,
-                data:angular.toJson($scope.messageForm),//1
+                data:angular.toJson($scope.messageForm),
                 headers:{
                     'Content-Type' : 'application/json'
                 }
                 }).then(_success,_error);
             };
 
-            $scope.deleteMessage=function(message) {//3
+            $scope.deleteMessage=function(message) {
                 $http({
                     method:'DELETE',
                     url:'rest/messages/'+message.msgID
                 }).then(_success,_error);
             };
 
-            $scope.editMessage = function (message) {//2
-                $scope.messageForm.msgID=message.msgID;//4
+            $scope.editMessage = function (message) {
+               $scope.messageForm.msgID=message.msgID;
                 $scope.messageForm.msgRu=message.msgRu;
                 $scope.messageForm.msgKz=message.msgKz;
                 $scope.messageForm.msgEn=message.msgEn;
@@ -80,7 +80,7 @@
             }
 
             function _clearFormData() {
-                $scope.messageForm.msgID='';
+                $scope.messageForm.msgID=-1;
                 $scope.messageForm.msgRu='';
                 $scope.messageForm.msgKz='';
                 $scope.messageForm.msgEn='';
@@ -111,10 +111,10 @@
  <form ng-submit="submitMessage()">
     <table>
         <tr><th colspan="2">add/edit</th></tr>
-       <tr>
+    <!--   <tr>
             <td>ID</td>
             <td><input type="text" ng-model="messageForm.msgID"></td>
-        </tr>--
+        </tr>-->
         <tr>
             <td>Ru message</td>
             <td><input type="text" ng-model="messageForm.msgRu"></td>

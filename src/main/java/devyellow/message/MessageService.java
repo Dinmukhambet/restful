@@ -47,8 +47,19 @@ public class MessageService {
 
     public Message createMessage(Message msg) throws IOException {
         Message message= new Message();
-        message.setMsgID(msg.getMsgID());
-        msgMap.put(msg.getMsgID(),msg);
+          int max=0;
+        for (int key:msgMap.keySet()) {
+
+
+            if (key-max!=1){
+                msg.setMsgID(max+1);
+                msgMap.put(msg.getMsgID(),msg);
+                break;
+            }
+                max=key;
+        }
+       // message.setMsgID(msg.getMsgID());
+
 
         return null;
     }
