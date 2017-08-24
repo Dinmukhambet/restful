@@ -64,7 +64,7 @@ public class MessageService {
         return null;
     }
 
-    public Message updateMessage(Message message){
+    public synchronized Message updateMessage(Message message){
         if (message.getMsgID()<=0){
             return null;
         }
