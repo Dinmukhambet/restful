@@ -19,12 +19,7 @@ public class MessageFormat {
     }
 
     public List<Message> sortMsg(List<Message> messageList){
-        Collections.sort(messageList, new Comparator<Message>() {
-            @Override
-            public int compare(Message o1, Message o2) {
-                return (o1.getMsgID()-o2.getMsgID());
-            }
-        });
+        Collections.sort(messageList, (o1, o2) -> (o1.getMsgID()-o2.getMsgID()));
         return messageList;
     }
 }
